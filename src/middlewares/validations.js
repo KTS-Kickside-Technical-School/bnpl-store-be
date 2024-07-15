@@ -32,4 +32,30 @@ const isUserAlreadyExist = async (req, res, next) => {
 
 }
 
-export { bodyValidation, isUserAlreadyExist };
+const isUserExist = async(req,res,next) =>{
+    try {
+      const email = req.body.email;
+      const user = await authRepository.getUserByAttribute("email", email);
+      if (!user) {
+        return res
+          .status(httpStatus.BAD_REQUEST)
+          .json({
+            status: httpStatus.BAD_REQUEST,
+            message: "User Doesn't exists",
+          });
+      }
+      req.user=user;
+      return next();
+    } catch (error) {
+      return res
+        .status(httpStatus.INTERNAL_SERVER_ERROR)
+        .json({
+          status: httpStatus.INTERNAL_SERVER_ERROR,
+          message: error.message,
+        });
+    }
+
+
+}
+
+export { bodyValidation, isUserAlreadyExist,isUserExist };
