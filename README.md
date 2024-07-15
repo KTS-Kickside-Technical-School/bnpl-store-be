@@ -14,6 +14,7 @@ This is our first version of BNPL that includes many new features.
 
 1. Welcome endpoint.
 2. User registration endpoint.
+3. User Login endpoint
 
 ## Table of completed Endpoints
 
@@ -21,3 +22,4 @@ This is our first version of BNPL that includes many new features.
 | ---- | --------------------- | ----------------- | ------- |
 | GET  | /api/v1/              | Welcome endpoint  | OK      |
 | POST | /api/v1/auth/register | Register endpoint | CREATED |
+| POST | /api/v1/auth/register | LogIn   endpoint  | CREATED |
