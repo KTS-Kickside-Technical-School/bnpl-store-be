@@ -7,13 +7,22 @@
   },
   "servers": [
     {
-      "url": "http://localhost:7000"
+      "url": "http://localhost:7000",
+      "description": "Local development server"
+    },
+    {
+      "url": "https://bnpl-store-be.onrender.com",
+      "description": "Production server"
     }
   ],
   "tags": [
     {
       "name": "Welcome message",
       "description": "Endpoints that will be used to welcome users to our API documentation"
+    },
+    {
+      "name": "Auth",
+      "description": "Endpoints related to user authentication"
     }
   ],
   "paths": {
@@ -26,6 +35,119 @@
         "responses": {
           "200": {
             "description": "A successful response"
+          }
+        }
+      }
+    },
+    "/api/v1/auth/register": {
+      "post": {
+        "tags": [
+          "Authentication routes"
+        ],
+        "summary": "Register a new user",
+        "description": "This endpoint registers a new user. The request body must contain email and password, both of which are mandatory.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "User's email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "User's password"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User registered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 201
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User registered successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "newUser": {
+                          "$ref": "#/components/schemas/User"
+                        },
+                        "session": {
+                          "type": "object",
+                          "properties": {
+                            "userId": {
+                              "type": "string",
+                              "example": "60b7d3c1d72b4e001c8b4567"
+                            },
+                            "token": {
+                              "type": "string",
+                              "example": "your-jwt-token"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 500
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "user@example.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "Password@123"
           }
         }
       }
