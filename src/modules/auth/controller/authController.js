@@ -4,6 +4,7 @@ import {
     generateToken
 }
     from "../../../helpers/authHelpers.js";
+import { sendEmail } from "../../../services/mailSend.js";
 import authRepository from "../repository/authRepository.js";
 const registerUser = async (req, res) => {
     try {
@@ -16,7 +17,8 @@ const registerUser = async (req, res) => {
             userId: newUser._id,
             token
         }
-        return res.status(httpStatus.CREATED).json({ status: httpStatus.CREATED, message: "User registered successfully", data: { newUser,session } })
+        await sendEmail(email, "Registration successful", `Your registration was successful. Click this link to verify your account: ${process.env.FRONTEND_URL}/api/v1/auth/verify/${token}`)
+        return res.status(httpStatus.CREATED).json({ status: httpStatus.CREATED, message: "User registered successfully", data: { newUser, session } })
     } catch (error) {
         return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ status: httpStatus.INTERNAL_SERVER_ERROR, message: error.message })
     }
