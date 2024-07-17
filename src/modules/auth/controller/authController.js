@@ -5,6 +5,8 @@ import {
 } from "../../../helpers/authHelpers.js";
 import { sendEmail } from "../../../services/mailSend.js";
 import authRepository from "../repository/authRepository.js";
+import nodemailer from 'nodemailer';
+
 const registerUser = async (req, res) => {
   try {
     const email = req.body.email;
@@ -69,4 +71,66 @@ const loginUser = async (req, res) => {
   }
 };
 
-export default { registerUser, loginUser, verifyEmail };
+
+const transporter = nodemailer.createTransport({
+  host: 'smtp.example.com',
+  port: 587,
+  secure: false, 
+  auth: {
+    user: 'username',
+    pass: 'password'
+  }
+});
+
+const resetpassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const result = resetPasswordSchema.validate({ email });
+    if (result.error) {
+      return res.status(400).json({ message: result.error.details[0].message });
+    }
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    const token = await user.generateResetPasswordToken();
+    await user.save();
+    const mailOptions = {
+      from: 'bnpltestingreset@gmail.com',
+      to: email,
+      subject: 'Password Reset',
+      text: `Click on this link to reset your password: http://localhost:5000/new-password/${token}`
+    };
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        return res.status(500).json({ message: 'Error sending password reset token' });
+      }
+      res.json({ message: 'Password reset token sent to your email' });
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Error sending password reset token' });
+  }
+};
+
+const newPassword = async (req, res) => {
+  try {
+    const { password, confirmPassword } = req.body;
+    const { token } = req.params;
+    const user = await User.findOne({ passwordResetToken: token });
+    if (!user) {
+      return res.status(404).json({ message: 'Invalid token' });
+    }
+    const result = newPasswordSchema.validate({ password, confirmPassword });
+    if (result.error) {
+      return res.status(400).json({ message: result.error.details[0].message });
+    }
+    user.password = password;
+    user.passwordResetToken = null;
+    await user.save();
+    res.json({ message: 'Password reset successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error resetting password' });
+  }
+};
+
+export default { registerUser, loginUser, resetpassword, newPassword };

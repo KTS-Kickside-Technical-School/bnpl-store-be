@@ -7,12 +7,12 @@ import dbConnection from "./databases/config/config.js"
 import swaggerJSDoc from "swagger-jsdoc"
 import swaggerUI from "swagger-ui-express"
 import swaggerDocument from "./swagger.json" assert { type: 'json'};
-
+import bodyParser from "body-parser"
 
 dotenv.config()
 
 const app = express()
-
+app.use(bodyParser.json())
 app.use(cors())
 app.use(morgan("dev"))
 app.use(express.json())
