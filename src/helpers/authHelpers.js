@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
 import dotenv from "dotenv";
 dotenv.config()
 const hashPassword = async (password) => {
@@ -8,10 +9,22 @@ const hashPassword = async (password) => {
 
 const generateToken = async (userId) => {
     const secretKey = process.env.SECRET_KEY
-    return await jwt.sign({userId}, secretKey)
+    return await jwt.sign({ userId }, secretKey)
 }
 
+const generateOTP = (userId) => {
+    const timestamp = Date.now().toString();
+
+    const data = `${userId}:${timestamp}`;
+
+    const hash = crypto.createHash('sha256').update(data).digest('hex');
+
+    const otp = hash.slice(0, 8).toUpperCase();
+
+    return otp;
+};
 export {
     hashPassword,
-    generateToken
+    generateToken,
+    generateOTP
 }
