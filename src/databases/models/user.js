@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
         type: Number,
         required: false
     },
-    isVerified: {
+    isEmailVerified: {
         type: Boolean,
         default: false
     },
@@ -39,7 +39,6 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        minlength: 6
     }
 }, { timestamps: true });
 

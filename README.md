@@ -4,22 +4,24 @@ This is our first version of BNPL that includes many new features.
 
 ## Hosted backend link
 
-(Hosted backend link)[https://bnpl-store-be.onrender.com/]
+[Hosted backend link](https://bnpl-store-be.onrender.com/)
 
 ## API Documentation Link
 
-{Add the documentation link}
+[Hosted API documentation link](https://bnpl-store-be.onrender.com/api-docs)
 
 ## List of completed Endpoints
 
 1. Welcome endpoint.
 2. User registration endpoint.
 3. User Login endpoint
+4. User verify the email address
 
 ## Table of completed Endpoints
 
-| Verb | Endpoint              | Name              | Status  |
-| ---- | --------------------- | ----------------- | ------- |
-| GET  | /api/v1/              | Welcome endpoint  | OK      |
-| POST | /api/v1/auth/register | Register endpoint | CREATED |
-| POST | /api/v1/auth/register | LogIn   endpoint  | CREATED |
+| Verb | Endpoint                  | Name                  | Status  |
+| ---- | ------------------------- | --------------------- | ------- |
+| GET  | /api/v1/                  | Welcome endpoint      | OK      |
+| POST | /api/v1/auth/register     | Register endpoint     | CREATED |
+| POST | /api/v1/auth/login        | LogIn endpoint        | OK      |
+| POST | /api/v1/auth/verify-email | Verify email endpoint | OK      |

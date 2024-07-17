@@ -26,6 +26,11 @@ const loginSchema = Joi.object({
   })
 });
 
+const verifyEmailSchema = Joi.object({
+  userId: Joi.string().required(),
+  otp: Joi.string().required()
+})
 
 
-export {registerSchema,loginSchema}
+
+export {registerSchema,loginSchema,verifyEmailSchema}
