@@ -18,14 +18,16 @@ This is our first version of BNPL that includes many new features.
 4. User verify the email address
 5. User forgot password endpoint.
 6. User reset password endpoint.
+7. User logout endpoint.
 
 ## Table of completed Endpoints
 
-| Verb | Endpoint                  | Name                  | Status  |
-| ---- | ------------------------- | --------------------- | ------- |
-| GET  | /api/v1/                  | Welcome endpoint      | OK      |
-| POST | /api/v1/auth/register     | Register endpoint     | CREATED |
-| POST | /api/v1/auth/login        | LogIn endpoint        | OK      |
-| POST | /api/v1/auth/verify-email | Verify email endpoint | OK      |
-| POST | /api/v1/auth/forgot-password       | Forgot password endpoint | OK      |
-| POST | /api/v1/auth/reset-password | Reset password endpoint | OK      |
+| Verb | Endpoint                     | Name                     | Status  |
+| ---- | ---------------------------- | ------------------------ | ------- |
+| GET  | /api/v1/                     | Welcome endpoint         | OK      |
+| POST | /api/v1/auth/register        | Register endpoint        | CREATED |
+| POST | /api/v1/auth/login           | LogIn endpoint           | OK      |
+| POST | /api/v1/auth/verify-email    | Verify email endpoint    | OK      |
+| POST | /api/v1/auth/forgot-password | Forgot password endpoint | OK      |
+| POST | /api/v1/auth/reset-password  | Reset password endpoint  | OK      |
+| POST | /api/v1/auth/logout          | User Logout endpoint     | OK      |
