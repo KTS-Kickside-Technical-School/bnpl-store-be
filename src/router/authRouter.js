@@ -5,12 +5,14 @@ import {
   verifyEmailSchema,
   resetPasswordSchema,
   newPasswordSchema,
+  logoutSchema,
 } from "../modules/auth/validation/authValidations.js";
 import {
   bodyValidation,
   isUserAlreadyExist,
   isUserExist,
-  iTokenExists,
+  isOtpExists,
+  isTokenValid,
 } from "../middlewares/validations.js";
 import authController from "../modules/auth/controller/authController.js";
 
@@ -26,7 +28,7 @@ router.post(
   "/verify-email",
   bodyValidation(verifyEmailSchema),
   isUserExist,
-  iTokenExists,
+  isOtpExists,
   authController.verifyEmail
 );
 
@@ -47,8 +49,15 @@ router.post(
   "/new-password/",
   bodyValidation(newPasswordSchema),
   isUserExist,
-  iTokenExists,
+  isOtpExists,
   authController.newPassword
 );
 
+router.post(
+  "/logout",
+  bodyValidation(logoutSchema),
+  isUserExist,
+  isTokenValid,
+  authController.userLogout
+);
 export default router;

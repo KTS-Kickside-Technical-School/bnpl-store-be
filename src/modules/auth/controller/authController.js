@@ -74,9 +74,9 @@ const verifyEmail = async (req, res) => {
 };
 const loginUser = async (req, res) => {
   try {
-    const token = await generateToken(req.userId);
+    const token = await generateToken(req.user._id);
     const session = {
-      userId: req.userId,
+      userId: req.user._id,
       token: token,
     };
     const newSession = await authRepository.saveSession(session);
@@ -150,10 +150,30 @@ const newPassword = async (req, res) => {
   }
 };
 
+const userLogout = async (req, res) => {
+  try {
+    const destroySession = authRepository.destroySessionByAttributes(
+      "userId",
+      req.user._id,
+      "token",
+      req.body.token
+    );
+    return res.status(httpStatus.OK).json({
+      status: httpStatus.OK,
+      message: "User logged out successfully.",
+    });
+  } catch (error) {
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+      status: httpStatus.INTERNAL_SERVER_ERROR,
+      message: error.message,
+    });
+  }
+};
 export default {
   registerUser,
   loginUser,
   newPassword,
   userSendOtp,
   verifyEmail,
+  userLogout,
 };

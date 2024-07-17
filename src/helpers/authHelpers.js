@@ -12,6 +12,11 @@ const generateToken = async (userId) => {
   return await jwt.sign({ userId }, secretKey);
 };
 
+const verifyToken = (token) => {
+  const secretKey = process.env.SECRET_KEY;
+  return jwt.verify(token, secretKey);
+};
+
 const generateOTP = (userId) => {
   const timestamp = Date.now().toString();
 
@@ -23,4 +28,4 @@ const generateOTP = (userId) => {
 
   return otp;
 };
-export { hashPassword, generateToken, generateOTP };
+export { hashPassword, generateToken, generateOTP, verifyToken };
