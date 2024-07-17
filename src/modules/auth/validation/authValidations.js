@@ -26,7 +26,7 @@ const loginSchema = Joi.object({
   }),
 });
 
-const resetpasswordSchema = Joi.object({
+const resetPasswordSchema = Joi.object({
   email: Joi.string().email().required().messages({
     'string.email': 'Please enter a valid email address',
     'string.empty': 'Email is required',
@@ -40,18 +40,11 @@ const verifyEmailSchema = Joi.object({
 })
 
 
-const newresetpasswordSchema = Joi.object({
-  password: Joi.string().min(6).required().messages({
-    'string.min': 'Password should have a minimum length of 6 characters',
-    'string.empty': 'Password is required',
-    'any.required': 'Password is required'
-  }),
-  confirmPassword: Joi.string().valid(Joi.ref('password')).required().messages({
-    'string.empty': 'Confirm password is required',
-    'any.required': 'Confirm password is required',
-    'any.only': 'Passwords do not match'
-  })
+const newPasswordSchema = Joi.object({
+  userId: Joi.string().required(),
+  otp: Joi.string().min(8).required(),
+  newPassword: Joi.string().min(6).required()
 
 });
 
-export {registerSchema,loginSchema, resetpasswordSchema ,newresetpasswordSchema,verifyEmailSchema}
+export {registerSchema,loginSchema, resetPasswordSchema ,newPasswordSchema,verifyEmailSchema}

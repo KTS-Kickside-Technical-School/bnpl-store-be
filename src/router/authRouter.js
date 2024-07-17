@@ -3,8 +3,8 @@ import {
   registerSchema,
   loginSchema,
   verifyEmailSchema,
-  resetpasswordSchema,
-  newresetpasswordSchema,
+  resetPasswordSchema,
+  newPasswordSchema,
 } from "../modules/auth/validation/authValidations.js";
 import {
   bodyValidation,
@@ -39,12 +39,15 @@ router.post(
 
 router.post(
   "/reset-password",
-  bodyValidation(resetpasswordSchema),
-  authController.resetpassword
+  bodyValidation(resetPasswordSchema),
+  isUserExist,
+  authController.userSendOtp
 );
 router.post(
-  "/new-password/:token",
-  bodyValidation(newresetpasswordSchema),
+  "/new-password/",
+  bodyValidation(newPasswordSchema),
+  isUserExist,
+  iTokenExists,
   authController.newPassword
 );
 

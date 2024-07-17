@@ -1,11 +1,12 @@
 import httpStatus from "http-status";
 import {
-  hashPassword, generateToken,
-  generateOTP
+  hashPassword,
+  generateToken,
+  generateOTP,
 } from "../../../helpers/authHelpers.js";
 import { sendEmail } from "../../../services/mailSend.js";
 import authRepository from "../repository/authRepository.js";
-import nodemailer from 'nodemailer';
+import nodemailer from "nodemailer";
 
 const registerUser = async (req, res) => {
   try {
@@ -41,15 +42,36 @@ const registerUser = async (req, res) => {
 
 const verifyEmail = async (req, res) => {
   try {
-    const verifyEmail = await authRepository.updateUserByAttribute("_id", req.user._id, "isEmailVerified", true);
-    const deleteSession = await authRepository.destroySessionByAttributes("userId", req.user._id, "token", req.session.token)
-    const email = req.user.email
-    const verificationMessage = await sendEmail(email, "Email Verification Successful", `Thank you for verifying your email.`)
-    return res.status(httpStatus.OK).json({ status: httpStatus.OK, message: " Email verified successfully.", data: { verifyEmail, deleteSession } })
+    const verifyEmail = await authRepository.updateUserByAttribute(
+      "_id",
+      req.user._id,
+      "isEmailVerified",
+      true
+    );
+    const deleteSession = await authRepository.destroySessionByAttributes(
+      "userId",
+      req.user._id,
+      "token",
+      req.session.token
+    );
+    const email = req.user.email;
+    const verificationMessage = await sendEmail(
+      email,
+      "Email Verification Successful",
+      `Thank you for verifying your email.`
+    );
+    return res.status(httpStatus.OK).json({
+      status: httpStatus.OK,
+      message: " Email verified successfully.",
+      data: { verifyEmail, deleteSession },
+    });
   } catch (error) {
-    return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ status: httpStatus.INTERNAL_SERVER_ERROR, message: error.message })
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+      status: httpStatus.INTERNAL_SERVER_ERROR,
+      message: error.message,
+    });
   }
-}
+};
 const loginUser = async (req, res) => {
   try {
     const token = await generateToken(req.userId);
@@ -71,66 +93,67 @@ const loginUser = async (req, res) => {
   }
 };
 
-
-const transporter = nodemailer.createTransport({
-  host: 'smtp.example.com',
-  port: 587,
-  secure: false, 
-  auth: {
-    user: 'username',
-    pass: 'password'
-  }
-});
-
-const resetpassword = async (req, res) => {
+const userSendOtp = async (req, res) => {
   try {
-    const { email } = req.body;
-    const result = resetPasswordSchema.validate({ email });
-    if (result.error) {
-      return res.status(400).json({ message: result.error.details[0].message });
-    }
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-    const token = await user.generateResetPasswordToken();
-    await user.save();
-    const mailOptions = {
-      from: 'bnpltestingreset@gmail.com',
-      to: email,
-      subject: 'Password Reset',
-      text: `Click on this link to reset your password: http://localhost:5000/new-password/${token}`
+    const otp = generateOTP(req.user._id);
+    const session = {
+      userId: req.user._id,
+      token: otp,
     };
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        return res.status(500).json({ message: 'Error sending password reset token' });
-      }
-      res.json({ message: 'Password reset token sent to your email' });
+    const saveOtp = await authRepository.saveSession(session);
+    const sendOtp = await sendEmail(
+      req.user.email,
+      "Password reset OTP",
+      `Hello this is your OTP to reset password: ${otp}`
+    );
+
+    return res.status(httpStatus.OK).json({
+      status: httpStatus.OK,
+      message: "Password reset OTP sent to your email",
+      data: { otp },
     });
   } catch (error) {
-    res.status(500).json({ message: 'Error sending password reset token' });
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+      status: httpStatus.INTERNAL_SERVER_ERROR,
+      message: error.message,
+    });
   }
 };
 
 const newPassword = async (req, res) => {
   try {
-    const { password, confirmPassword } = req.body;
-    const { token } = req.params;
-    const user = await User.findOne({ passwordResetToken: token });
-    if (!user) {
-      return res.status(404).json({ message: 'Invalid token' });
-    }
-    const result = newPasswordSchema.validate({ password, confirmPassword });
-    if (result.error) {
-      return res.status(400).json({ message: result.error.details[0].message });
-    }
-    user.password = password;
-    user.passwordResetToken = null;
-    await user.save();
-    res.json({ message: 'Password reset successfully' });
+    const newHashedPassword = await hashPassword(req.body.newPassword);
+    const updatePassword = await authRepository.updateUserByAttribute(
+      "_id",
+      req.user._id,
+      "password",
+      newHashedPassword
+    );
+
+    const deleteOtp = await authRepository.destroySessionByAttributes(
+      "_id",
+      req.user._id,
+      "token",
+      req.body.otp
+    );
+
+    return res.status(httpStatus.OK).json({
+      status: httpStatus.OK,
+      message: "Passwrod reset successfully completed.",
+      data: { updatePassword },
+    });
   } catch (error) {
-    res.status(500).json({ message: 'Error resetting password' });
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+      status: httpStatus.INTERNAL_SERVER_ERROR,
+      message: error.message,
+    });
   }
 };
 
-export default { registerUser, loginUser, resetpassword, newPassword };
+export default {
+  registerUser,
+  loginUser,
+  newPassword,
+  userSendOtp,
+  verifyEmail,
+};
