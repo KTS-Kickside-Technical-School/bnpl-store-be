@@ -16,6 +16,8 @@ This is our first version of BNPL that includes many new features.
 2. User registration endpoint.
 3. User Login endpoint
 4. User verify the email address
+5. User forgot password endpoint.
+6. User reset password endpoint.
 
 ## Table of completed Endpoints
 
@@ -25,3 +27,5 @@ This is our first version of BNPL that includes many new features.
 | POST | /api/v1/auth/register     | Register endpoint     | CREATED |
 | POST | /api/v1/auth/login        | LogIn endpoint        | OK      |
 | POST | /api/v1/auth/verify-email | Verify email endpoint | OK      |
+| POST | /api/v1/auth/forgot-password       | Forgot password endpoint | OK      |
+| POST | /api/v1/auth/reset-password | Reset password endpoint | OK      |

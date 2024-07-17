@@ -38,7 +38,7 @@ router.post(
 );
 
 router.post(
-  "/reset-password",
+  "/forgot-password",
   bodyValidation(resetPasswordSchema),
   isUserExist,
   authController.userSendOtp
