@@ -2,6 +2,7 @@ import express from "express"
 import httpStatus from "http-status"
 
 import authRouter from "./authRouter.js"
+import userRouter from "./userRouter.js"
 
 const router = express.Router()
 
@@ -10,6 +11,7 @@ router.get('/', (req, res) => {
 })
 
 router.use('/auth', authRouter)
+router.use('/user', userRouter)
 
 
 
