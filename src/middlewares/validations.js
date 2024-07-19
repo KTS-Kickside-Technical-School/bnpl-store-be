@@ -104,8 +104,6 @@ const isOtpExists = async (req, res, next) => {
 };
 const isTokenValid = async (req, res, next) => {
   try {
-    // const tokenValid = verifyToken(req.body.token)
-    // console.log(tokenValid);
     const session = await authRepository.getSessionByAttributes(
       "userId",
       req.body.userId,
@@ -128,6 +126,9 @@ const isTokenValid = async (req, res, next) => {
       });
   }
 };
+
+
+
 export {
   bodyValidation,
   isUserAlreadyExist,
