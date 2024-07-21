@@ -127,6 +127,27 @@ const isTokenValid = async (req, res, next) => {
   }
 };
 
+const transformFilesToBody = (req, res, next) => {
+  if (!req.files) {
+    return res
+      .status(httpStatus.BAD_REQUEST)
+      .json({ status: httpStatus.BAD_REQUEST, message: "Images are required" });
+  }
+
+  const files = req.files;
+  req.body.images = files.map((file) => file.path);
+  next();
+};
+
+const isIdValid = (req, res, next) =>{
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.status(httpStatus.BAD_REQUEST).json({
+      status: httpStatus.BAD_REQUEST,
+      message: "Invalid ID",
+    });
+  }
+  next();
+}
 
 
 export {
@@ -135,4 +156,6 @@ export {
   isUserExist,
   isOtpExists,
   isTokenValid,
+  transformFilesToBody,
+  isIdValid
 };
