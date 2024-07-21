@@ -18,4 +18,16 @@ const adminCreateProduct = async (req, res) => {
     }
 }
 
-export default { adminCreateProduct }
+const getAllProducts = async (req, res) => {
+    try {
+        const products = req.products
+        return res.status(httpStatus.OK).json({
+            status: httpStatus.OK, message: "Products retrieved successfully",
+            data: { products }
+        })
+    } catch (error) {
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ status: httpStatus.INTERNAL_SERVER_ERROR, message: error.message })
+    }
+}
+
+export default { adminCreateProduct, getAllProducts }

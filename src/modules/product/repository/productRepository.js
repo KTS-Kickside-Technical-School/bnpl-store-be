@@ -11,4 +11,12 @@ const createProduct = async (data) => {
     const newProduct = new Product(data);
     return await newProduct.save();
 }
-export default { getProductByAttribute, createProduct }
+
+const getAllProducts = async () => {
+    return Product.find()
+}
+export default {
+    getProductByAttribute,
+    createProduct,
+    getAllProducts
+};
