@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:5000",
+      "url": "http://localhost:7000",
       "description": "Local development server"
     },
     {
@@ -28,7 +28,9 @@
   "paths": {
     "/api/v1": {
       "get": {
-        "tags": ["Welcome message"],
+        "tags": [
+          "Welcome message"
+        ],
         "summary": "Returns the welcome message",
         "responses": {
           "200": {
@@ -39,7 +41,9 @@
     },
     "/api/v1/auth/register": {
       "post": {
-        "tags": ["Authentication routes"],
+        "tags": [
+          "Authentication routes"
+        ],
         "summary": "Register a new user",
         "description": "This endpoint registers a new user. The request body must contain email and password, both of which are mandatory.",
         "requestBody": {
@@ -48,7 +52,10 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["email", "password"],
+                "required": [
+                  "email",
+                  "password"
+                ],
                 "properties": {
                   "email": {
                     "type": "string",
@@ -130,7 +137,9 @@
     },
     "/api/v1/auth/verify-email": {
       "post": {
-        "tags": ["Authentication routes"],
+        "tags": [
+          "Authentication routes"
+        ],
         "summary": "Register a new user",
         "description": "This endpoint registers a new user. The request body must contain email and password, both of which are mandatory.",
         "requestBody": {
@@ -139,7 +148,10 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["userId", "otp"],
+                "required": [
+                  "userId",
+                  "otp"
+                ],
                 "properties": {
                   "userId": {
                     "type": "string",
@@ -226,7 +238,9 @@
     },
     "/api/v1/auth/login": {
       "post": {
-        "tags": ["Authentication routes"],
+        "tags": [
+          "Authentication routes"
+        ],
         "summary": "Login a registered user",
         "description": "This endpoint logs in a registered user. The request body must contain email and password, both of which are mandatory.",
         "requestBody": {
@@ -235,7 +249,10 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["email", "password"],
+                "required": [
+                  "email",
+                  "password"
+                ],
                 "properties": {
                   "email": {
                     "type": "string",
@@ -324,7 +341,9 @@
     },
     "/api/v1/auth/forgot-password": {
       "post": {
-        "tags": ["Authentication routes"],
+        "tags": [
+          "Authentication routes"
+        ],
         "summary": "Send a password reset OTP",
         "description": "This endpoint allows users to receive the OTP to reset their passwords.",
         "requestBody": {
@@ -333,7 +352,9 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["email"],
+                "required": [
+                  "email"
+                ],
                 "properties": {
                   "email": {
                     "type": "string",
@@ -412,7 +433,9 @@
     },
     "/api/v1/auth/new-password": {
       "post": {
-        "tags": ["Authentication routes"],
+        "tags": [
+          "Authentication routes"
+        ],
         "summary": "Send a password reset OTP",
         "description": "This endpoint allows users to receive the OTP to reset their passwords.",
         "requestBody": {
@@ -421,7 +444,11 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["userId", "otp", "newPassword"],
+                "required": [
+                  "userId",
+                  "otp",
+                  "newPassword"
+                ],
                 "properties": {
                   "userId": {
                     "type": "string",
@@ -508,7 +535,9 @@
     },
     "/api/v1/auth/logout": {
       "post": {
-        "tags": ["Authentication routes"],
+        "tags": [
+          "Authentication routes"
+        ],
         "summary": "Logout a logged in  user",
         "description": "This endpoint logs out a logged in user",
         "requestBody": {
@@ -517,7 +546,10 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["userId", "token"],
+                "required": [
+                  "userId",
+                  "token"
+                ],
                 "properties": {
                   "userId": {
                     "type": "string",
@@ -603,6 +635,201 @@
           }
         }
       }
+    },
+    "/api/v1/user/user-update-profile": {
+      "put": {
+        "tags": [
+          "User account management"
+        ],
+        "summary": "Update the profile of a user",
+        "description": "This endpoint allow a logged in user to update their profile..",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "firstname": {
+                    "type": "string"
+                  },
+                  "lastname": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "number"
+                  },
+                  "nid": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User updated successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "updatedUser": {
+                          "type": "object"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 401
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 500
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/user-view-profile": {
+      "get": {
+        "tags": [
+          "User account management"
+        ],
+        "summary": "Get profile information of the user",
+        "description": "This endpoint allows a logged in user to access the profile information",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User profile retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User profile retrieved successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "newSession": {
+                          "type": "object"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 401
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 500
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -630,6 +857,13 @@
             "type": "string"
           }
         }
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }
