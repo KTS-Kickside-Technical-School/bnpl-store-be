@@ -43,7 +43,7 @@ export const isProductExists = async (req, res, next) => {
 }
 
 
-export const isCategoryAlreadyExists = async (req,res,next) => {
+export const isCategoryAlreadyExists = async (req, res, next) => {
     try {
         const category = await productRepository.getCategoryByAttribute("name", req.body.name);
         if (category) {
@@ -53,5 +53,30 @@ export const isCategoryAlreadyExists = async (req,res,next) => {
     }
     catch (error) {
         res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ status: httpStatus.INTERNAL_SERVER_ERROR, message: error.message })
+    }
+}
+
+export const isCategoriesExists = async (req, res, next) => {
+    try {
+        const category = await productRepository.getAllCategories()
+        if (!category.length) {
+            return res.status(httpStatus.NOT_FOUND).json({ status: httpStatus.NOT_FOUND, message: "No categories found" })
+        }
+        req.categories = category;
+        next();
+    } catch (error) {
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ status: httpStatus.INTERNAL_SERVER_ERROR, message: error.message })
+    }
+}
+export const isCategoryExistByCategory = async (req,res,next)=> {
+    try {
+        const category = await productRepository.getCategoryByAttribute("name", req.body.category);
+        if (!category) {
+            return res.status(httpStatus.NOT_FOUND).json({ status: httpStatus.NOT_FOUND, message: "Category not found" });
+        }
+        req.category = category;
+        next();
+    } catch (error) {
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ status: httpStatus.INTERNAL_SERVER_ERROR, message: error.message });
     }
 }

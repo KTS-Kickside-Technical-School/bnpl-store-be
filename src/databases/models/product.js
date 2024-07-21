@@ -31,6 +31,9 @@ const productSchema = new mongoose.Schema({
     },
     countingUnit: {
         type: String
+    },
+    category: {
+        type: String
     }
 }, { timestamps: true })
 

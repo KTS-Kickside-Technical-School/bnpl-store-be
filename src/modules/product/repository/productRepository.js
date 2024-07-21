@@ -24,10 +24,15 @@ const createCategory = async (category) => {
     const newCategory = new Category(category);
     return await newCategory.save();
 }
+
+const getAllCategories = async () => {
+    return Category.find()
+}
 export default {
     getProductByAttribute,
     createProduct,
     getAllProducts,
     getCategoryByAttribute,
-    createCategory
+    createCategory,
+    getAllCategories
 };

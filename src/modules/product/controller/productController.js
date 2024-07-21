@@ -50,9 +50,18 @@ const adminCreateCategory = async (req, res) => {
         return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ status: httpStatus.INTERNAL_SERVER_ERROR, message: error.message })
     }
 }
+const adminViewCategories = async (req, res) => {
+    try {
+        const categories = req.categories
+        return res.status(httpStatus.OK).json({ status: httpStatus.OK, message: "Category retrieved successfully", data: { categories } })
+    } catch (err) {
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ status: httpStatus.INTERNAL_SERVER_ERROR, message: err.message })
+    }
+}
 export default {
     adminCreateProduct,
     getAllProducts,
     getSingleProduct,
-    adminCreateCategory
+    adminCreateCategory,
+    adminViewCategories
 }
