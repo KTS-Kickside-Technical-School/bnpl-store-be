@@ -139,6 +139,15 @@ const transformFilesToBody = (req, res, next) => {
   next();
 };
 
+const isIdValid = (req, res, next) =>{
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.status(httpStatus.BAD_REQUEST).json({
+      status: httpStatus.BAD_REQUEST,
+      message: "Invalid ID",
+    });
+  }
+  next();
+}
 
 
 export {
@@ -147,5 +156,6 @@ export {
   isUserExist,
   isOtpExists,
   isTokenValid,
-  transformFilesToBody
+  transformFilesToBody,
+  isIdValid
 };

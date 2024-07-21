@@ -27,3 +27,17 @@ export const isProductsExists = async (req, res, next) => {
         res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ status: httpStatus.INTERNAL_SERVER_ERROR, message: error.message })
     }
 }
+
+
+export const isProductExists = async (req, res, next) => {
+    try {
+        const product = await productRepository.getProductByAttribute("_id", req.params.id);
+        if (!product) {
+            return res.status(httpStatus.NOT_FOUND).json({ status: httpStatus.NOT_FOUND, message: "Product not found" });
+        }
+        req.product = product;
+        next();
+    } catch (error) {
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ status: httpStatus.INTERNAL_SERVER_ERROR, message: error.message });
+    }
+}
