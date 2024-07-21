@@ -18,3 +18,16 @@ export const userUpdateProfile = async (req, res) => {
         });
     }
 }
+
+export const userViewProfile = async (req, res) => {
+    try {
+        const userProfile = await userRepository.getProfileByAttribute("_id",req.user._id);
+        return res.status(httpStatus.OK).json({
+            status: httpStatus.OK,
+            message: "User profile fetched successfully",
+            data: { userProfile }
+        });
+    } catch (error) {
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({status:httpStatus.INTERNAL_SERVER_ERROR, message:error.message});
+    }
+}
