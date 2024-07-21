@@ -16,6 +16,9 @@ app.use(bodyParser.json())
 app.use(cors())
 app.use(morgan("dev"))
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
+
+
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 
 app.use("/api/v1", router)

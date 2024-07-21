@@ -20,6 +20,7 @@ This is our first version of BNPL that includes many new features.
 6. User reset password endpoint.
 7. User logout endpoint.
 8. User update profile
+9. User view profile
 
 ## Table of completed Endpoints
 
