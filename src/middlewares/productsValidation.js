@@ -41,3 +41,17 @@ export const isProductExists = async (req, res, next) => {
         return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ status: httpStatus.INTERNAL_SERVER_ERROR, message: error.message });
     }
 }
+
+
+export const isCategoryAlreadyExists = async (req,res,next) => {
+    try {
+        const category = await productRepository.getCategoryByAttribute("name", req.body.name);
+        if (category) {
+            return res.status(httpStatus.BAD_REQUEST).json({ status: httpStatus.BAD_REQUEST, message: "category already exists" })
+        }
+        next();
+    }
+    catch (error) {
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ status: httpStatus.INTERNAL_SERVER_ERROR, message: error.message })
+    }
+}

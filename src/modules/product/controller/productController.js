@@ -42,8 +42,17 @@ const getSingleProduct = async (req, res) => {
     }
 }
 
+const adminCreateCategory = async (req, res) => {
+    try {
+        const category = await productRepository.createCategory(req.body)
+        return res.status(httpStatus.CREATED).json({ status: httpStatus.CREATED, message: "Category created successfully", data: { category } });
+    } catch (error) {
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ status: httpStatus.INTERNAL_SERVER_ERROR, message: error.message })
+    }
+}
 export default {
     adminCreateProduct,
     getAllProducts,
-    getSingleProduct
+    getSingleProduct,
+    adminCreateCategory
 }
