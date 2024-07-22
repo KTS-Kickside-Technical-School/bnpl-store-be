@@ -29,6 +29,7 @@ This is our first version of BNPL that includes many new features.
 15. User add product to wishlist
 16. User view his/her Wishlist created
 17. User Delete or remove product from wishlist
+18. User Can Add and Update Products to cart
 
 ## Table of completed Endpoints
 
@@ -51,4 +52,4 @@ This is our first version of BNPL that includes many new features.
 |POST|   /api/v1/wishlist/user-add-product-to-wishlist | user able to add product to his/her wishlist | endpoint         | OK    |
 |GET| /api/v1/wishlist/view-wishlist           | User view his/her Wishlist
 endpoint       | OK       |
-|DELETE| /api/v1/wishlist/delete-product-from-wishlist | User Delete product from wishlist  |  endpoint  | OK       |
+|DELETE| /api/v1/wishlist/delete-product-from-wishlist | User Delete product from wishlist  |  endpoint  | OK       || POST | /api/v1/cart/add-product-to-cart      | Add Product to Cart            | OK      |
