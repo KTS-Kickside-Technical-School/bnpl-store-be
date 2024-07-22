@@ -28,9 +28,7 @@
   "paths": {
     "/api/v1": {
       "get": {
-        "tags": [
-          "Welcome message"
-        ],
+        "tags": ["Welcome message"],
         "summary": "Returns the welcome message",
         "responses": {
           "200": {
@@ -41,9 +39,7 @@
     },
     "/api/v1/auth/register": {
       "post": {
-        "tags": [
-          "Authentication routes"
-        ],
+        "tags": ["Authentication routes"],
         "summary": "Register a new user",
         "description": "This endpoint registers a new user. The request body must contain email and password, both of which are mandatory.",
         "requestBody": {
@@ -52,10 +48,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "email",
-                  "password"
-                ],
+                "required": ["email", "password"],
                 "properties": {
                   "email": {
                     "type": "string",
@@ -137,9 +130,7 @@
     },
     "/api/v1/auth/verify-email": {
       "post": {
-        "tags": [
-          "Authentication routes"
-        ],
+        "tags": ["Authentication routes"],
         "summary": "Register a new user",
         "description": "This endpoint registers a new user. The request body must contain email and password, both of which are mandatory.",
         "requestBody": {
@@ -148,10 +139,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "userId",
-                  "otp"
-                ],
+                "required": ["userId", "otp"],
                 "properties": {
                   "userId": {
                     "type": "string",
@@ -238,9 +226,7 @@
     },
     "/api/v1/auth/login": {
       "post": {
-        "tags": [
-          "Authentication routes"
-        ],
+        "tags": ["Authentication routes"],
         "summary": "Login a registered user",
         "description": "This endpoint logs in a registered user. The request body must contain email and password, both of which are mandatory.",
         "requestBody": {
@@ -249,10 +235,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "email",
-                  "password"
-                ],
+                "required": ["email", "password"],
                 "properties": {
                   "email": {
                     "type": "string",
@@ -341,9 +324,7 @@
     },
     "/api/v1/auth/forgot-password": {
       "post": {
-        "tags": [
-          "Authentication routes"
-        ],
+        "tags": ["Authentication routes"],
         "summary": "Send a password reset OTP",
         "description": "This endpoint allows users to receive the OTP to reset their passwords.",
         "requestBody": {
@@ -352,9 +333,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "email"
-                ],
+                "required": ["email"],
                 "properties": {
                   "email": {
                     "type": "string",
@@ -433,9 +412,7 @@
     },
     "/api/v1/auth/new-password": {
       "post": {
-        "tags": [
-          "Authentication routes"
-        ],
+        "tags": ["Authentication routes"],
         "summary": "Send a password reset OTP",
         "description": "This endpoint allows users to receive the OTP to reset their passwords.",
         "requestBody": {
@@ -444,11 +421,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "userId",
-                  "otp",
-                  "newPassword"
-                ],
+                "required": ["userId", "otp", "newPassword"],
                 "properties": {
                   "userId": {
                     "type": "string",
@@ -535,9 +508,7 @@
     },
     "/api/v1/auth/logout": {
       "post": {
-        "tags": [
-          "Authentication routes"
-        ],
+        "tags": ["Authentication routes"],
         "summary": "Logout a logged in  user",
         "description": "This endpoint logs out a logged in user",
         "requestBody": {
@@ -546,10 +517,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "userId",
-                  "token"
-                ],
+                "required": ["userId", "token"],
                 "properties": {
                   "userId": {
                     "type": "string",
@@ -638,9 +606,7 @@
     },
     "/api/v1/user/user-update-profile": {
       "put": {
-        "tags": [
-          "User account management"
-        ],
+        "tags": ["User account management"],
         "summary": "Update the profile of a user",
         "description": "This endpoint allow a logged in user to update their profile..",
         "security": [
@@ -747,21 +713,40 @@
         }
       }
     },
-    "/api/v1/user/user-view-profile": {
+    "/api/v1/cart/add-product-to-cart": {
       "get": {
-        "tags": [
-          "User account management"
-        ],
-        "summary": "Get profile information of the user",
-        "description": "This endpoint allows a logged in user to access the profile information",
+        "tags": ["Cart Management"],
+        "summary": "User Add Products To cart and Updates the cart",
+        "description": "This endpoint allows a logged in user to add products to the cart and if the products added to cart, he/she can updates it.",
         "security": [
           {
             "BearerAuth": []
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "string"
+                  },
+                  "productId": {
+                    "type": "string"
+                  },
+                  "quantity": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
-          "200": {
-            "description": "User profile retrieved successfully",
+          "201": {
+            "description": "Product Added to Cart Successfully",
             "content": {
               "application/json": {
                 "schema": {
@@ -773,7 +758,35 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "User profile retrieved successfully"
+                      "example": "Product Added to Cart Successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "newSession": {
+                          "type": "object"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Cart Updated Successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Product Added to Cart Successfully"
                     },
                     "data": {
                       "type": "object",

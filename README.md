@@ -26,6 +26,7 @@ This is our first version of BNPL that includes many new features.
 12. View specific product
 13. Admin create Product
 14. Admin view categories
+15. User Can Add and Update Products to cart
 
 ## Table of completed Endpoints
 
@@ -45,3 +46,4 @@ This is our first version of BNPL that includes many new features.
 | GET  | /api/v1/product/view-specific-product | Vire specific product          | OK      |
 | POST | /api/v1/product/create-category       | Admin Create category endpoint | OK      |
 | GET  | /api/v1/product/view-categories       | View categories endpoint       | OK      |
+| POST | /api/v1/cart/add-product-to-cart      | Add Product to Cart            | OK      |
