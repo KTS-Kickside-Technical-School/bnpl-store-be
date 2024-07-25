@@ -20,4 +20,25 @@ const addProductsToCart = async (req, res) => {
   }
 };
 
-export default {addProductsToCart}
+
+const removeProductToCart = async (req, res) => {
+  try {
+    await cartRepository.deleteCartProduct(
+      req.cart.id,
+      req.product.productId
+    );
+    res
+      .status(httpStatus.OK)
+      .json({ status: httpStatus.OK, message: " product removed to cart successfully" });
+  } catch (error) {
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+      status: httpStatus.INTERNAL_SERVER_ERROR,
+      message: error.message,
+    });
+  }
+};
+
+
+
+
+export default {addProductsToCart,removeProductToCart}

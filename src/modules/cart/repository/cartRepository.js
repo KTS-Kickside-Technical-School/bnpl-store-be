@@ -19,9 +19,31 @@ const getCartByAttributes = async (key1, value1, key2, value2) => {
 const updateCartByAttributes = async (filter, data) => {
   return await Cart.findOneAndUpdate(filter, { $set: data }, { new: true });
 };
+
+const getProductByCartIdAndProductId = async (
+  cartId,
+  productId
+) => {
+  return await Cart.findOne({ where: { cartId, productId } });
+};
+
+const deleteCartProduct = async (cartId, productId) => {
+  await Cart.destroy({ where: { cartId, productId } });
+};
+
+
+const getCartByUserIdAndCartId = async (userId,cartId) => {
+  return await Cart.findOne({
+    where: { _id: cartId, userId: userId},
+   
+  });
+};
 export default {
   addProductsToCart,
   getCartByAttribute,
   getCartByAttributes,
   updateCartByAttributes,
+  deleteCartProduct,
+  getCartByUserIdAndCartId,
+  getProductByCartIdAndProductId
 };

@@ -6,3 +6,10 @@ export const addProductsToCartSchema = Joi.object({
   quantity: Joi.number().required(),
   
 });
+
+export const removeProductToCart = Joi.object({
+  userId: Joi.string().required(),
+  productId: Joi.string().required(),
+  
+  
+});
