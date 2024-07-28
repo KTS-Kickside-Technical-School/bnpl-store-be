@@ -3,12 +3,13 @@ import wishlistRepository from "../modules/wishlist/repository/wishlistRepositor
 
 export const isProductAlreadyInWishlist = async (req, res, next) => {
   try {
-    const updatedData = { productId, userId };
+    const productId = req.product._id;
+    const userId = req.user._id;
     const existingWishlist = await wishlistRepository.getWishlistByAttributes(
       "productId",
-      req.product._id,
+      productId,
       "userId",
-      req.user._id
+      userId
     );
 
     if (existingWishlist) {

@@ -45,3 +45,7 @@ This is our first version of BNPL that includes many new features.
 | GET  | /api/v1/product/view-specific-product | Vire specific product          | OK      |
 | POST | /api/v1/product/create-category       | Admin Create category endpoint | OK      |
 | GET  | /api/v1/product/view-categories       | View categories endpoint       | OK      |
+|POST|   /api/v1/wishlist/user-add-product-to-wishlist | user able to add product to his/her wishlist | endpoint         | OK    |
+|GET| /api/v1/wishlist/view-wishlist           | User view his/her Wishlist
+endpoint       | OK       |
+|DELETE| /api/v1/wishlist/delete-product-from-wishlist | User Delete product from wishlist  |  endpoint  | OK       |
