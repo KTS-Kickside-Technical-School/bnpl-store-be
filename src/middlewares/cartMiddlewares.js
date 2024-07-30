@@ -3,13 +3,14 @@ import cartRepository from "../modules/cart/repository/cartRepository.js";
 
 export const isProductalreadyInCart = async (req, res, next) => {
   try {
-    const { productId, userId, quantity } = req.body;
+    const { productId, quantity } = req.body;
+    const userId = req.user._id;
     const updatedData = { productId, userId, quantity };
     const existingCart = await cartRepository.getCartByAttributes(
       "productId",
       productId,
       "userId",
-      userId
+      req.user._id
     );
     if (existingCart) {
       const updatedCart = await cartRepository.updateCartByAttributes(
@@ -31,46 +32,44 @@ export const isProductalreadyInCart = async (req, res, next) => {
     });
   }
 };
-export const isCartIdExist = async(req,res,next) =>{
-    const {cartId,userId} = req.body;
-    console.log(cartId)
-    if (!cartId) {
-      return res.status(httpStatus.BAD_REQUEST).json({
-        status: httpStatus.BAD_REQUEST,
-        message: "Cart ID is required."
-      });
-    }
-    const cart = await cartRepository.getCartByAttributes( "cartId",
-      cartId,
-      "userId",
-      userId);
-    if (!cart) {
-      return res.status(httpStatus.NOT_FOUND).json({
-        status: httpStatus.NOT_FOUND,
-        message: "Cart not found. Please add items to your cart."
-      });
-    }
-    req.cart = cart;
-    return next();
-  };
+// export const isCartIdExist = async (req, res, next) => {
+//   const { cartId } = req.body;
+//   console.log(cartId);
+//   if (!cartId) {
+//     return res.status(httpStatus.BAD_REQUEST).json({
+//       status: httpStatus.BAD_REQUEST,
+//       message: "Cart ID is required.",
+//     });
+//   }
+//   const cart = await cartRepository.getCartByAttributes(
+//     "cartId",
+//     cartId,
+//     "userId",
+//     req.user._id
+//   );
+//   if (!cart) {
+//     return res.status(httpStatus.NOT_FOUND).json({
+//       status: httpStatus.NOT_FOUND,
+//       message: "Cart not found. Please add items to your cart.",
+//     });
+//   }
+//   req.cart = cart;
+//   return next();
+// };
 
-  
- export const isCartProductExist = async (
-  req,
-  res,
-  next
-) => {
+export const isProductInCart = async (req, res, next) => {
   try {
-    const product = await cartRepository.getProductByCartIdAndProductId(
-      req.cart._id,
-      req.body.productId
+    const cartProduct = await cartRepository.getCartByProductIdAndUserId(
+      req.body.productId,
+      req.user._id
     );
-    if (!product)
+    console.log("pro",req.body.productId,"User",req.user._id)
+    if (!cartProduct)
       return res.status(httpStatus.NOT_FOUND).json({
         status: httpStatus.NOT_FOUND,
-        message: "Product not found.",
+        message: "Product not found in cart.",
       });
-    req.product = product;
+    req.cartProduct = cartProduct;
     return next();
   } catch (error) {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({

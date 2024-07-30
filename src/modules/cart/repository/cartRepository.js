@@ -38,6 +38,22 @@ const getCartByUserIdAndCartId = async (userId,cartId) => {
    
   });
 };
+
+const getCartByProductIdAndUserId = async(productId,userId) => {
+  return await Cart.findOne({where: {
+    productId: productId,
+    userId: userId
+  }})
+}
+
+const removeCartProductByProductIdAndUserId = async(productId,userId) => {
+  return await Cart.destroy({
+    where: {
+      productId: productId,
+      userId: userId
+    }
+  })
+}
 export default {
   addProductsToCart,
   getCartByAttribute,
@@ -45,5 +61,7 @@ export default {
   updateCartByAttributes,
   deleteCartProduct,
   getCartByUserIdAndCartId,
-  getProductByCartIdAndProductId
+  getProductByCartIdAndProductId,
+  getCartByProductIdAndUserId,
+  removeCartProductByProductIdAndUserId,
 };
