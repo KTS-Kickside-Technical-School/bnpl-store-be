@@ -4,6 +4,7 @@ import httpStatus from "http-status"
 import authRouter from "./authRouter.js"
 import userRouter from "./userRouter.js"
 import productRouter from "./productsRouter.js"
+import wishlistRouter from "./wishlistRouter.js"
 
 const router = express.Router()
 
@@ -14,6 +15,7 @@ router.get('/', (req, res) => {
 router.use('/auth', authRouter)
 router.use('/user', userRouter)
 router.use('/product', productRouter)
+router.use('/wishlist', wishlistRouter)
 
 
 

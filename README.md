@@ -26,6 +26,9 @@ This is our first version of BNPL that includes many new features.
 12. View specific product
 13. Admin create Product
 14. Admin view categories
+15. User add product to wishlist
+16. User view his/her Wishlist created
+17. User Delete or remove product from wishlist
 
 ## Table of completed Endpoints
 
@@ -45,3 +48,7 @@ This is our first version of BNPL that includes many new features.
 | GET  | /api/v1/product/view-specific-product | Vire specific product          | OK      |
 | POST | /api/v1/product/create-category       | Admin Create category endpoint | OK      |
 | GET  | /api/v1/product/view-categories       | View categories endpoint       | OK      |
+|POST|   /api/v1/wishlist/user-add-product-to-wishlist | user able to add product to his/her wishlist | endpoint         | OK    |
+|GET| /api/v1/wishlist/view-wishlist           | User view his/her Wishlist
+endpoint       | OK       |
+|DELETE| /api/v1/wishlist/delete-product-from-wishlist | User Delete product from wishlist  |  endpoint  | OK       |
