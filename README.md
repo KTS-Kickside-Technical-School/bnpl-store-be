@@ -26,6 +26,9 @@ This is our first version of BNPL that includes many new features.
 12. View specific product
 13. Admin create Product
 14. Admin view categories
+15. User add product to wishlist
+16. User view his/her Wishlist created
+17. User Delete or remove product from wishlist
 
 ## Table of completed Endpoints
 

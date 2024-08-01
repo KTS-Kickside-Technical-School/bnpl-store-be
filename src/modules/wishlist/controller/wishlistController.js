@@ -53,7 +53,7 @@ export const deleteProductfromWishlst = async(req, res)=>{
     }
     return res.status(httpStatus.OK).json({
       status: httpStatus.OK,
-      message: "Product Removed from Wishlist",
+      message: "Product Removed Sucessfully from Wishlist",
 
     })
   } catch (error) {
