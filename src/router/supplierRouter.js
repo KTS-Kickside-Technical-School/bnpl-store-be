@@ -10,5 +10,6 @@ const router = express.Router();
 router.post("/create-supplier", isUserAuthorized(['admin']), bodyValidation(supplierSchema), IsSupplierAlreadyExist,supplierController.adminCreateSupplier );
 router.get("/get-all-suppliers", isUserAuthorized(['admin']), supplierController.getAllSupplier);
 router.get("/get-supplier/:id", isUserAuthorized(['admin']), supplierController.getSupplierById);
+router.delete("/delete-supplier/:id",isUserAuthorized(['admin']), supplierController.deleteSupplier )
 
 export default router

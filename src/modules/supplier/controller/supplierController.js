@@ -41,7 +41,7 @@ const getAllSupplier = async (req, res) =>{
 const getSupplierById = async (req,res) =>{
     try {
         const {id} = req.params;
-        
+
         if (!id) {
             return res.status(httpStatus.BAD_REQUEST).json({
               status: httpStatus.BAD_REQUEST,
@@ -69,8 +69,42 @@ const getSupplierById = async (req,res) =>{
     }
 }
 
+
+const deleteSupplier = async (req,res) =>{
+    try {
+        const {id} = req.params;
+        
+        if (!id) {
+            return res.status(httpStatus.BAD_REQUEST).json({
+              status: httpStatus.BAD_REQUEST,
+              message: "Supplier ID is required"
+            });
+          }
+        const deletedSupplier = await supplierRepository.deleteSupplierById(id);
+        if (!deletedSupplier){
+            return res.status(httpStatus.NOT_FOUND).json({
+                status: httpStatus.NOT_FOUND,
+                message: "Supplier Not Found"
+            })
+        }
+        return res.status(httpStatus.OK).json({
+            status: httpStatus.OK,
+            message: "Supplier Deleted Successfully",
+            data: deletedSupplier
+        })
+        
+    } catch (error) {
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+            status: httpStatus.INTERNAL_SERVER_ERROR,
+            message: error.message
+        })
+        
+    }
+}
+
 export default {
   adminCreateSupplier,
   getAllSupplier,
-  getSupplierById
+  getSupplierById,
+  deleteSupplier
 };
