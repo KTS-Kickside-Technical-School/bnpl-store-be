@@ -28,11 +28,13 @@ const createCategory = async (category) => {
 const getAllCategories = async () => {
     return Category.find()
 }
+
 export default {
     getProductByAttribute,
     createProduct,
     getAllProducts,
     getCategoryByAttribute,
     createCategory,
-    getAllCategories
+    getAllCategories,
+    
 };

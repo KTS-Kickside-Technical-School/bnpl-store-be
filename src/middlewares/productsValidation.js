@@ -42,14 +42,13 @@ export const isProductsExists = async (req, res, next) => {
 
 export const isProductExists = async (req, res, next) => {
   try {
-    const productId = req.params.id || req.body.productId;
-    if (!productId) {
-      return res
-        .status(httpStatus.BAD_REQUEST)
-        .json({
-          status: httpStatus.BAD_REQUEST,
-          message: "Invalid Product ID",
-        });
+    const productId = req.params.id || req.body.productId || undefined;
+
+    if (!productId || !mongoose.Types.ObjectId.isValid(productId)) {
+      return res.status(httpStatus.BAD_REQUEST).json({
+        status: httpStatus.BAD_REQUEST,
+        message: "ProductId is invalid",
+      });
     }
     const product = await productRepository.getProductByAttribute(
       "_id",
