@@ -6,6 +6,7 @@ import userRouter from "./userRouter.js"
 import productRouter from "./productsRouter.js"
 import wishlistRouter from "./wishlistRouter.js"
 import cartRouter from "./cartRouter.js"
+import supplierRouter from "./supplierRouter.js"
 
 const router = express.Router()
 
@@ -18,6 +19,7 @@ router.use('/user', userRouter)
 router.use('/product', productRouter)
 router.use('/wishlist', wishlistRouter)
 router.use('/cart',cartRouter)
+router.use('/supplier', supplierRouter )
 
 
 
