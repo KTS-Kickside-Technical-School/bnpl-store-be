@@ -30,7 +30,10 @@ This is our first version of BNPL that includes many new features.
 16. User view his/her Wishlist created
 17. User Delete or remove product from wishlist
 18. User Can Add and Update Products to cart
-
+19. Admin create Supplier
+20. Admin view all Supplier with their information
+21. Admin view Specific Supplier Information
+22. Admin able to delete Supplier
 ## Table of completed Endpoints
 
 | Verb | Endpoint                              | Name                           | Status  |
@@ -49,7 +52,10 @@ This is our first version of BNPL that includes many new features.
 | GET  | /api/v1/product/view-specific-product | Vire specific product          | OK      |
 | POST | /api/v1/product/create-category       | Admin Create category endpoint | OK      |
 | GET  | /api/v1/product/view-categories       | View categories endpoint       | OK      |
-|POST|   /api/v1/wishlist/user-add-product-to-wishlist | user able to add product to his/her wishlist | endpoint         | OK    |
-|GET| /api/v1/wishlist/view-wishlist           | User view his/her Wishlist
-endpoint       | OK       |
-|DELETE| /api/v1/wishlist/delete-product-from-wishlist | User Delete product from wishlist  |  endpoint  | OK       || POST | /api/v1/cart/add-product-to-cart      | Add Product to Cart            | OK      |
+|POST|   /api/v1/wishlist/user-add-product-to-wishlist | user able to add product to his/her wishlist endpoint   | OK    |
+|GET| /api/v1/wishlist/view-wishlist           | User view his/her Wishlist endpoint |OK  |
+|DELETE| /api/v1/wishlist/delete-product-from-wishlist | User Delete product from wishlist endpoint  | OK       |
+|POST|  /api/v1/supplier/create-supplier       | Admin Create Supplier Endpoint  | OK       |  
+|GET| /api/v1/supplier/get-all-suppliers       | Admin View All Supplier endpoint| OK      |
+|GET| /api/v1/supplier/get-supplier/:id        | Admin View Specific Supplier    | OK      |
+|DELETE| /api/v1/supplier/delete-supplier/:id  | Admin Delete Supplier           | OK      || POST | /api/v1/cart/add-product-to-cart      | Add Product to Cart            | OK      |

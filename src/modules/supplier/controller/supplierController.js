@@ -77,6 +77,7 @@ const deleteSupplier = async (req,res) =>{
         if (!id) {
             return res.status(httpStatus.BAD_REQUEST).json({
               status: httpStatus.BAD_REQUEST,
+              
               message: "Supplier ID is required"
             });
           }
