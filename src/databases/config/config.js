@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config()
 
 const mongoURI = process.env.MONGO_URI
-
+mongoose.Promise = global.Promise;
 const dbConnection = mongoose.connect(mongoURI)
     .then(() => {
         console.log("Successfully connected to MongoDB");
