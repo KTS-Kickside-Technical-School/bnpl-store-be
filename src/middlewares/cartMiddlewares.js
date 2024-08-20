@@ -1,10 +1,12 @@
 import httpStatus from "http-status";
 import cartRepository from "../modules/cart/repository/cartRepository.js"
+import Product from "../databases/models/product.js";
+
 
 export const isProductAlreadyToCart = async (req, res, next) => {
     try {
       const userId = req.user._id;
-      const productId = req.product._id;
+      const productId = req.body.productId;
       const quantity = req.body.quantity;
       const existingCartItem = await cartRepository.getCartByAttributes(
         "productId",
@@ -32,3 +34,17 @@ export const isProductAlreadyToCart = async (req, res, next) => {
       });
     }
   };
+
+  export const isProductExistsToCart = async (req, res, next) => {
+    const productId = req.body.productId || req.query.productId || req.params.productId;
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(httpStatus.NOT_FOUND).json({
+        status: httpStatus.NOT_FOUND,
+        message: "Product not found",
+      });
+    }
+    req.product = product; 
+    next();
+  };
+  
