@@ -22,9 +22,16 @@ const getCartByAttributes = async (key1, value1, key2, value2) => {
   return await Cart.findOne(query);
 };
 
+const deleteProductFromCart = async ( productId)=>{
+  return await Cart.findOneAndDelete ({ productId })
+}
+
+
 export default {
   addProductToCart,
   updateCartQuantity,
   getCartByAttribute,
   getCartByAttributes,
+  deleteProductFromCart
+  
 };
