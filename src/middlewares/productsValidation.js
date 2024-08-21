@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import httpStatus from "http-status";
 import productRepository from "../modules/product/repository/productRepository.js";
 
@@ -60,7 +61,8 @@ export const isProductExists = async (req, res, next) => {
         .json({ status: httpStatus.NOT_FOUND, message: "Product not found" });
     }
     req.product = product;
-    next();
+
+   return next();
   } catch (error) {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
       status: httpStatus.INTERNAL_SERVER_ERROR,
