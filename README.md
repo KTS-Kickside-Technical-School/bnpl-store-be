@@ -34,6 +34,7 @@ This is our first version of BNPL that includes many new features.
 20. Admin view all Supplier with their information
 21. Admin view Specific Supplier Information
 22. Admin able to delete Supplier
+23. Admin able to update Supplier
 ## Table of completed Endpoints
 
 | Verb | Endpoint                              | Name                           | Status  |
@@ -57,5 +58,7 @@ This is our first version of BNPL that includes many new features.
 |DELETE| /api/v1/wishlist/delete-product-from-wishlist | User Delete product from wishlist endpoint  | OK       |
 |POST|  /api/v1/supplier/create-supplier       | Admin Create Supplier Endpoint  | OK       |  
 |GET| /api/v1/supplier/get-all-suppliers       | Admin View All Supplier endpoint| OK      |
-|GET| /api/v1/supplier/get-supplier/:id        | Admin View Specific Supplier    | OK      |
-|DELETE| /api/v1/supplier/delete-supplier/:id  | Admin Delete Supplier           | OK      || POST | /api/v1/cart/add-product-to-cart      | Add Product to Cart            | OK      |
+|GET| /api/v1/supplier/get-supplier/:id        | Admin View Specific Supplier endpoint     | OK      |
+|DELETE| /api/v1/supplier/delete-supplier/:id  | Admin Delete Supplier endpoint  | OK      |
+|PUT| api/v1/supplier/update-supplier/:id      | Admin Update Supplier endpoint  | OK      |          
+| POST | /api/v1/cart/add-product-to-cart      | Add Product to Cart    | OK      |

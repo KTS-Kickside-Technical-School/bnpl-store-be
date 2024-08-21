@@ -101,11 +101,45 @@ const deleteSupplier = async (req,res) =>{
         })
         
     }
+};
+
+const updateSupplier = async (req, res) =>{
+  try {
+    const {id}=req.params;
+    const updateData = req.body
+
+    if (!id){
+
+      return res.status(httpStatus.BAD_REQUEST).json({
+        status: httpStatus.BAD_REQUEST,
+        message: "Supplier ID is required"
+      })
+    }
+
+    const updatedSuppplier = await supplierRepository.deleteSupplierById(id, updateData);
+    if (!updatedSuppplier){
+      return res.status(httpStatus.NOT_FOUND).json({
+        status: httpStatus.NOT_FOUND,
+        message: "Supplier Not Found"
+      })
+    }
+    return res.status(httpStatus.OK).json({
+      status: httpStatus.OK,
+      message: "Supplier Updated Successfully",
+      data: updatedSuppplier
+    })
+  } catch (error) {
+    
+  }
+
 }
+
+
 
 export default {
   adminCreateSupplier,
   getAllSupplier,
   getSupplierById,
-  deleteSupplier
+  deleteSupplier,
+  updateSupplier
 };

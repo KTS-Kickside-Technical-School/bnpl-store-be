@@ -36,11 +36,26 @@ const deleteSupplierById = async (id) => {
     }
 }
 
+
+const updateSupplierById = async (id, updateData) => {
+  try {
+    const updatedSuppplier = await Supplier.findByIdAndUpdate(id, updateData, {new: true} )
+    return updatedSuppplier;
+
+  } catch (error) {
+
+    throw new Error(`Could not update supplier with id ${id}: ${error.message}`)
+    
+  }
+ 
+}
+
 export default {
   createSupplier,
   findSupplierByAttributes,
   getAllSupplier,
   getSupplierById,
-  deleteSupplierById
+  deleteSupplierById,
+  updateSupplierById
 
 };
