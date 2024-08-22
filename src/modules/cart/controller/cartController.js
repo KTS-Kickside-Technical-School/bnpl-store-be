@@ -3,6 +3,16 @@ import cartRepository from "../repository/cartRepository.js";
 
 export const addProductToCart = async(req, res)=>{
     try {
+
+        const { user, product } = req;
+        if (!user || !user._id || !product || !product._id) {
+          return res.status(httpStatus.BAD_REQUEST).json({
+            status: httpStatus.BAD_REQUEST,
+            message: "User or product information is missing",
+          });
+        }
+
+
         const userId = req.user._id;
         const productId = req.product._id;
         const quantity = req.body.quantity;
@@ -23,4 +33,38 @@ export const addProductToCart = async(req, res)=>{
         
     }
 };
-export default{addProductToCart}
+
+
+export const removeProductFromCart = async (req, res)=>{
+    try {
+        const productId = req.body.productId
+        const removeCartItems= await cartRepository.deleteProductFromCart(productId)
+
+        if (!removeCartItems){
+            return res.status(httpStatus.NOT_FOUND).json({
+                status: httpStatus.NOT_FOUND,
+                message: "Product not found in cart",
+            })
+        }
+        return res.status(httpStatus.OK).json({
+            status: httpStatus.OK,
+            message: "Product removed from cart successfully",
+        })
+
+
+        
+    } catch (error) {
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+            status: httpStatus.INTERNAL_SERVER_ERROR,
+            message: message.error
+        })
+        
+    }
+}
+
+
+export default{
+    addProductToCart,
+    removeProductFromCart
+
+}

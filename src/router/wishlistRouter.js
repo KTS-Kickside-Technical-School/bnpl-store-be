@@ -24,6 +24,7 @@ router.get("/View-wishlist",
 router.delete("/delete-product-from-wishlist",
   isUserAuthorized(["customer"]),
   bodyValidation(DeleteWishlistItemSchema),
+  isProductAlreadyInWishlist,
   wishlistController.deleteProductfromWishlst
 )
 
