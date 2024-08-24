@@ -12,6 +12,19 @@ export const createProductsSchema = Joi.object({
     category: Joi.string().required()
 })
 
+export const deleteProductSchema = Joi.object({
+    productId: Joi.string().required()
+})
+
 export const createCategorySchema = Joi.object({
     name: Joi.string().required()
+})
+
+export const updateCategorySchema = Joi.object({
+    categoryId: Joi.string().required(),
+    name: Joi.string().required()
+})
+
+export const deleteCategorySchema =Joi.object({
+    categoryId: Joi.string().required()
 })

@@ -1,5 +1,6 @@
 import Product from "../../../databases/models/product.js";
 import Category from "../../../databases/models/category.js";
+import mongoose from "mongoose";
 const getProductByAttribute = async (key, value) => {
     const query = {}
     query[key] = value;
@@ -29,6 +30,21 @@ const getAllCategories = async () => {
     return Category.find()
 }
 
+const updateCategory = async (_id, updateCategoryData) =>{
+    const category = await Category.findByIdAndUpdate(_id, updateCategoryData, {new: true})
+    return category;
+}
+
+const deleteCategory = async (_id) =>{
+    const category = await Category.findByIdAndDelete(_id)
+    return category
+}
+
+const deleteProduct = async (_id) =>{
+    const product = await Product.findByIdAndDelete(_id)
+    return product
+}
+
 export default {
     getProductByAttribute,
     createProduct,
@@ -36,5 +52,8 @@ export default {
     getCategoryByAttribute,
     createCategory,
     getAllCategories,
+    updateCategory,
+    deleteCategory,
+    deleteProduct
     
 };

@@ -1,6 +1,7 @@
 import httpStatus from "http-status";
 import productRepository from "../repository/productRepository.js";
 import uploadImages from "../../../helpers/uploadImages.js";
+
 const adminCreateProduct = async (req, res) => {
   try {
     const uploadPromises = req.files.map((file) => uploadImages(file));
@@ -56,6 +57,31 @@ const getSingleProduct = async (req, res) => {
   }
 };
 
+const adminDeleteProduct = async(req, res) =>{
+  try {
+
+    const productId = req.body.productId
+    const product = await productRepository.deleteProduct(productId)
+    if (!product){
+      res.status(httpStatus.NOT_FOUND).json({
+        status: httpStatus.NOT_FOUND,
+        message: "Product not Found"
+      })
+    }
+    res.status(httpStatus.OK).json({
+      status: httpStatus.OK,
+      message: "Product deleted successfully",
+      data: product
+    })
+    
+  } catch (error) {
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+      status: httpStatus.INTERNAL_SERVER_ERROR,
+      message: error.message
+    })
+}
+}
+
 const adminCreateCategory = async (req, res) => {
   try {
     const category = await productRepository.createCategory(req.body);
@@ -86,10 +112,51 @@ const adminViewCategories = async (req, res) => {
   }
 };
 
+const adminUpdateCategory = async (req, res) =>{
+  try {
+    const categoryId = req.body.categoryId;
+    const updatedCategory = await productRepository.updateCategory(categoryId, req.body)
+    return res.status(httpStatus.OK).json({
+      status: httpStatus.OK,
+      message: "Category updated successfully",
+      data: updatedCategory
+    })
+    
+  } catch (error) {
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+      status: httpStatus.INTERNAL_SERVER_ERROR,
+      message: error.message,
+    })
+    
+  }
+};
+
+const adminDeleteCategory = async(req, res) =>{
+  try {
+    const categoryId = req.body.categoryId;
+    const deletedCategory = await productRepository.deleteCategory(categoryId)
+    return res.status(httpStatus.OK).json({
+      status: httpStatus.OK,
+      message: "Category deleted successfully",
+      data: deletedCategory
+    })
+    
+  } catch (error) {
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+      status: httpStatus.INTERNAL_SERVER_ERROR,
+      message: error.message,
+    })
+    
+  }
+};
+
 export default {
   adminCreateProduct,
   getAllProducts,
   getSingleProduct,
   adminCreateCategory,
   adminViewCategories,
-};
+  adminUpdateCategory,
+  adminDeleteCategory,
+  adminDeleteProduct
+}
