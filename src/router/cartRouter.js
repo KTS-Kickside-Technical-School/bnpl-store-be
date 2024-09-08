@@ -23,6 +23,7 @@ router.delete("/remove-product-from-cart",
     bodyValidation(removeCartItemSchema),
     isProductExistsToCart,
     cartController.removeProductFromCart
-)
+);
+
 
 export default router;

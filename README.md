@@ -36,6 +36,7 @@ This is our first version of BNPL that includes many new features.
 22. Admin able to delete Supplier
 23. Admin able to update Supplier
 24. User add and update product added to cart
+25. Admin Create, Update and Delete Blog
 ## Table of completed Endpoints
 
 | Verb | Endpoint                              | Name                           | Status  |

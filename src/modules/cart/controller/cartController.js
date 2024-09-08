@@ -1,6 +1,7 @@
 import httpStatus from "http-status";
 import cartRepository from "../repository/cartRepository.js";
 
+
 export const addProductToCart = async(req, res)=>{
     try {
 
@@ -11,7 +12,6 @@ export const addProductToCart = async(req, res)=>{
             message: "User or product information is missing",
           });
         }
-
 
         const userId = req.user._id;
         const productId = req.product._id;
@@ -60,7 +60,8 @@ export const removeProductFromCart = async (req, res)=>{
         })
         
     }
-}
+};
+
 
 
 export default{
