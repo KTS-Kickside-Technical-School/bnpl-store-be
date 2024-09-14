@@ -64,4 +64,8 @@ export const deleteProductfromWishlst = async(req, res)=>{
     
   }
 }
-export default { addProductToWishlist, getUserWishList,deleteProductfromWishlst };
+export default { 
+  addProductToWishlist, 
+  getUserWishList,
+  deleteProductfromWishlst 
+};

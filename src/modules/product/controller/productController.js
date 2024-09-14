@@ -15,8 +15,10 @@ const adminCreateProduct = async (req, res) => {
     return res.status(httpStatus.CREATED).json({
       status: httpStatus.CREATED,
       message: "Product created successfully",
-      data: { product },
+      data: { product }
     });
+
+    
   } catch (error) {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
       status: httpStatus.INTERNAL_SERVER_ERROR,
@@ -158,5 +160,5 @@ export default {
   adminViewCategories,
   adminUpdateCategory,
   adminDeleteCategory,
-  adminDeleteProduct
+  adminDeleteProduct,
 }

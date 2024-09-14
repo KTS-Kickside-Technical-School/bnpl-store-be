@@ -116,7 +116,7 @@ const updateSupplier = async (req, res) =>{
       })
     }
 
-    const updatedSuppplier = await supplierRepository.deleteSupplierById(id, updateData);
+    const updatedSuppplier = await supplierRepository.updateSupplierById(id, updateData);
     if (!updatedSuppplier){
       return res.status(httpStatus.NOT_FOUND).json({
         status: httpStatus.NOT_FOUND,
@@ -129,6 +129,10 @@ const updateSupplier = async (req, res) =>{
       data: updatedSuppplier
     })
   } catch (error) {
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+      status: httpStatus.INTERNAL_SERVER_ERROR,
+      message: error.message
+    })
     
   }
 
