@@ -24,7 +24,7 @@ const generateOTP = (userId) => {
 
   const hash = crypto.createHash("sha256").update(data).digest("hex");
 
-  const otp = hash.slice(0, 8).toUpperCase();
+  const otp = hash.slice(0, 6).toUpperCase();
 
   return otp;
 };

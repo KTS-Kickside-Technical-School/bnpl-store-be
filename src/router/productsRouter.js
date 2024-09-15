@@ -14,13 +14,15 @@ import {
     isProductExists,
     isCategoryAlreadyExists,
     isCategoriesExists,
-    isCategoryExistByCategory
+    isCategoryExistByCategory,
+    isCustomerProductsExists
 } from '../middlewares/productsValidation.js';
 import productController from '../modules/product/controller/productController.js';
 import { isUserAuthorized } from '../middlewares/userAuthorization.js';
 const router = express.Router();
 
 router.post("/create-product",isUserAuthorized(['admin']),  upload.array('images'), transformFilesToBody, bodyValidation(createProductsSchema), isProductAlreadyExists,isCategoryExistByCategory, productController.adminCreateProduct)
+router.get("/customer-view-products", isCustomerProductsExists, productController.getAllProducts)
 router.get("/view-all-products", isProductsExists, productController.getAllProducts)
 router.get("/view-specific-product/:id", isIdValid, isProductExists, productController.getSingleProduct)
 router.delete("/delete-product", isUserAuthorized(['admin']), isProductExists, bodyValidation(deleteProductSchema),productController.adminDeleteProduct)

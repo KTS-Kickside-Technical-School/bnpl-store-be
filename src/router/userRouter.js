@@ -8,4 +8,5 @@ const router = express.Router()
 
 router.put("/user-update-profile",isUserAuthorized(['customer', 'admin']),bodyValidation(updateUserSchema), userUpdateProfile);
 router.get("/user-view-profile",isUserAuthorized(['customer', 'admin']),userViewProfile)
+
 export default router

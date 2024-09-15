@@ -41,6 +41,31 @@ export const isProductsExists = async (req, res, next) => {
   }
 };
 
+export const isCustomerProductsExists = async (req, res, next) => {
+  try {
+    const products = await productRepository.getAllProducts();
+
+    const filteredProducts = products.filter(product =>
+      product.quantity > 0 && product.isAvailable === true
+    );
+
+    if (!filteredProducts || filteredProducts.length < 1) {
+      return res
+        .status(httpStatus.NOT_FOUND)
+        .json({ status: httpStatus.NOT_FOUND, message: "No products found" });
+    }
+
+    req.products = filteredProducts;
+    
+    next();
+  } catch (error) {
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+      status: httpStatus.INTERNAL_SERVER_ERROR,
+      message: error.message,
+    });
+  }
+};
+
 export const isProductExists = async (req, res, next) => {
   try {
     const productId = req.params.id || req.body.productId || undefined;
@@ -62,7 +87,7 @@ export const isProductExists = async (req, res, next) => {
     }
     req.product = product;
 
-   return next();
+    return next();
   } catch (error) {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
       status: httpStatus.INTERNAL_SERVER_ERROR,

@@ -1,6 +1,6 @@
 import Product from "../../../databases/models/product.js";
 import Category from "../../../databases/models/category.js";
-import mongoose from "mongoose";
+
 const getProductByAttribute = async (key, value) => {
     const query = {}
     query[key] = value;
@@ -13,8 +13,8 @@ const createProduct = async (data) => {
 }
 
 const getAllProducts = async () => {
-    return Product.find()
-}
+    return Product.find().sort({ createdAt: -1 });
+};
 
 const getCategoryByAttribute = async (key, name) => {
     const query = {}

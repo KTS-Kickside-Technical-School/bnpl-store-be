@@ -130,10 +130,11 @@ const isTokenValid = async (req, res, next) => {
 };
 
 const transformFilesToBody = (req, res, next) => {
-  if (!req.files) {
-    return res
-      .status(httpStatus.BAD_REQUEST)
-      .json({ status: httpStatus.BAD_REQUEST, message: "Images are required" });
+  if (!req.files || req.files.length === 0) {
+    return res.status(httpStatus.BAD_REQUEST).json({
+      status: httpStatus.BAD_REQUEST,
+      message: "Images are required",
+    });
   }
 
   const files = req.files;

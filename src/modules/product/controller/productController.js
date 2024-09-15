@@ -4,25 +4,35 @@ import uploadImages from "../../../helpers/uploadImages.js";
 
 const adminCreateProduct = async (req, res) => {
   try {
+
     const uploadPromises = req.files.map((file) => uploadImages(file));
+
+    if (uploadPromises.length === 0) {
+      throw new Error("No upload promises generated");
+    }
+
     const images = await Promise.all(uploadPromises);
+
+    if (!images || images.length === 0) {
+      throw new Error("Image upload failed");
+    }
+
     const productData = {
       ...req.body,
       images: images.map((image) => image.secure_url),
     };
 
     const product = await productRepository.createProduct(productData);
+
     return res.status(httpStatus.CREATED).json({
       status: httpStatus.CREATED,
       message: "Product created successfully",
       data: { product }
     });
-
-    
   } catch (error) {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
       status: httpStatus.INTERNAL_SERVER_ERROR,
-      message: error.message,
+      message: error.message || "An error occurred while creating the product",
     });
   }
 };
@@ -59,12 +69,12 @@ const getSingleProduct = async (req, res) => {
   }
 };
 
-const adminDeleteProduct = async(req, res) =>{
+const adminDeleteProduct = async (req, res) => {
   try {
 
     const productId = req.body.productId
     const product = await productRepository.deleteProduct(productId)
-    if (!product){
+    if (!product) {
       res.status(httpStatus.NOT_FOUND).json({
         status: httpStatus.NOT_FOUND,
         message: "Product not Found"
@@ -75,13 +85,13 @@ const adminDeleteProduct = async(req, res) =>{
       message: "Product deleted successfully",
       data: product
     })
-    
+
   } catch (error) {
     res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
       status: httpStatus.INTERNAL_SERVER_ERROR,
       message: error.message
     })
-}
+  }
 }
 
 const adminCreateCategory = async (req, res) => {
@@ -114,7 +124,7 @@ const adminViewCategories = async (req, res) => {
   }
 };
 
-const adminUpdateCategory = async (req, res) =>{
+const adminUpdateCategory = async (req, res) => {
   try {
     const categoryId = req.body.categoryId;
     const updatedCategory = await productRepository.updateCategory(categoryId, req.body)
@@ -123,17 +133,17 @@ const adminUpdateCategory = async (req, res) =>{
       message: "Category updated successfully",
       data: updatedCategory
     })
-    
+
   } catch (error) {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
       status: httpStatus.INTERNAL_SERVER_ERROR,
       message: error.message,
     })
-    
+
   }
 };
 
-const adminDeleteCategory = async(req, res) =>{
+const adminDeleteCategory = async (req, res) => {
   try {
     const categoryId = req.body.categoryId;
     const deletedCategory = await productRepository.deleteCategory(categoryId)
@@ -142,13 +152,13 @@ const adminDeleteCategory = async(req, res) =>{
       message: "Category deleted successfully",
       data: deletedCategory
     })
-    
+
   } catch (error) {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
       status: httpStatus.INTERNAL_SERVER_ERROR,
       message: error.message,
     })
-    
+
   }
 };
 
