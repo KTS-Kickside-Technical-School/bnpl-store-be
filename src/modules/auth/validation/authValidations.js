@@ -6,6 +6,8 @@ const registerSchema = Joi.object({
     "string.empty": "Email is required",
     "any.required": "Email is required",
   }),
+  firstName: Joi.string(),
+  lastName: Joi.string(),
   password: Joi.string().min(6).required().messages({
     "string.min": "Password should have a minimum length of 6 characters",
     "string.empty": "Password is required",
@@ -19,8 +21,7 @@ const loginSchema = Joi.object({
     "string.empty": "Email is required",
     "any.required": "Email is required",
   }),
-  password: Joi.string().min(6).required().messages({
-    "string.min": "Password should have a minimum length of 6 characters",
+  password: Joi.string().required().messages({
     "string.empty": "Password is required",
     "any.required": "Password is required",
   }),
