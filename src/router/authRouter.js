@@ -15,6 +15,7 @@ import {
   isTokenValid,
 } from "../middlewares/validations.js";
 import authController from "../modules/auth/controller/authController.js";
+import { isUserAuthorized } from "../middlewares/userAuthorization.js";
 
 const router = express.Router();
 
@@ -55,8 +56,7 @@ router.post(
 
 router.post(
   "/logout",
-  bodyValidation(logoutSchema),
-  isUserExist,
+  isUserAuthorized(["customer"]),
   isTokenValid,
   authController.userLogout
 );
