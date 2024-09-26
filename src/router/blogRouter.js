@@ -21,7 +21,9 @@ router.post(
 
 router.put("/update-blog/:id",
     isUserAuthorized(['admin']),
+    transformFilesToBody,
     bodyValidation(updateBlogSchema),
+    isBlogAlreadyExist,
     blogController.updateBlog
 );
 

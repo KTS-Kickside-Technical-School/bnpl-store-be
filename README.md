@@ -37,6 +37,7 @@ This is our first version of BNPL that includes many new features.
 23. Admin able to update Supplier
 24. User add and update product added to cart
 25. Admin Create, Update and Delete Blog
+26. User able to clear all product from cart
 ## Table of completed Endpoints
 
 | Verb | Endpoint                              | Name                           | Status  |
@@ -65,3 +66,4 @@ This is our first version of BNPL that includes many new features.
 |PUT| api/v1/supplier/update-supplier/:id      | Admin Update Supplier endpoint  | OK      |          
 | POST | /api/v1/cart/add-Update-product-to-cart | User Add and Update Product added to Cart endpoint | OK      |
 |DELETE| /api/v1/cart/remove-product-from-cart | User Able to Delete Product added to cart endpoint   | OK      |
+|DELETE| /api/v1/cart/clear-cart               | User able to clear cart endpoint | OK     |             

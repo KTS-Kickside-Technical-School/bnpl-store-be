@@ -2,7 +2,7 @@ import httpStatus from "http-status";
 import cartRepository from "../repository/cartRepository.js";
 
 
-export const addProductToCart = async(req, res)=>{
+export const addProductsToCart = async(req, res)=>{
     try {
 
         const { user, product } = req;
@@ -37,8 +37,10 @@ export const addProductToCart = async(req, res)=>{
 
 export const removeProductFromCart = async (req, res)=>{
     try {
+
+        const userId = req.user._id
         const productId = req.body.productId
-        const removeCartItems= await cartRepository.deleteProductFromCart(productId)
+        const removeCartItems= await cartRepository.deleteProductFromCart(userId, cartId, productId)
 
         if (!removeCartItems){
             return res.status(httpStatus.NOT_FOUND).json({
@@ -56,16 +58,42 @@ export const removeProductFromCart = async (req, res)=>{
     } catch (error) {
         return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
             status: httpStatus.INTERNAL_SERVER_ERROR,
-            message: message.error
+            message: error.message
         })
         
+    }
+};
+
+export const removeAllProductFromCart = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const result = await cartRepository.deleteAllProductFromCart(userId);
+
+        if (result.deletedCount === 0) {
+            return res.status(httpStatus.NOT_FOUND).json({
+                status: httpStatus.NOT_FOUND,
+                message: "No products found in cart",
+            });
+        }
+
+        return res.status(httpStatus.OK).json({
+            status: httpStatus.OK,
+            message: "All products removed from cart successfully",
+        });
+
+    } catch (error) {
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+            status: httpStatus.INTERNAL_SERVER_ERROR,
+            message: error.message 
+        });
     }
 };
 
 
 
 export default{
-    addProductToCart,
-    removeProductFromCart
+    addProductsToCart,
+    removeProductFromCart,
+    removeAllProductFromCart
 
 }

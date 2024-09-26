@@ -1,6 +1,7 @@
 import httpStatus from "http-status";
 import blogRepository from '../repository/blogRepository.js'
 import uploadImage from "../../../helpers/uploadImages.js";
+import { transformFromAstSync } from "@babel/core";
 
 const adminCreateBlog = async (req, res) =>{
     try {
@@ -27,31 +28,29 @@ const adminCreateBlog = async (req, res) =>{
     }
 };
 
-
-const updateBlog = async(req, res)=>{
+const updateBlog = async(req,res)=>{
     
     try {
-        const {id} = req.params;
-        const updateBlogData = req.body
-        if (!id){
+        console.log(req.files);
+        console.log(req.body);
+        const {id} = req.params
+        if(!id){
             return res.status(httpStatus.BAD_REQUEST).json({
-              status: httpStatus.BAD_REQUEST,
-              message: "BlogID is required"
+                status: httpStatus.BAD_REQUEST,
+                message: "Blog Id is Required"
             })
-          }
-
-        const updatedBlog = await blogRepository.updateBlogById(id, updateBlogData)
+        }
+        const updatedBlog = await blogRepository.blogUpdate(id, req.body)
         if (!updatedBlog){
             return res.status(httpStatus.NOT_FOUND).json({
-              status: httpStatus.NOT_FOUND,
-              message: "Blog Not Found"
+                status: httpStatus.NOT_FOUND,
+                message: "Blog Not Found"
             })
-          }
+        }
         return res.status(httpStatus.OK).json({
             status: httpStatus.OK,
             message: "Blog Updated Successfully",
-            data: updatedBlog,
-            
+            data: updatedBlog
         })
 
     } catch (error) {
@@ -59,8 +58,11 @@ const updateBlog = async(req, res)=>{
             status: httpStatus.INTERNAL_SERVER_ERROR,
             message: error.message
         })
+        
     }
-};
+    
+}
+
 
 const deleteBlog = async(req, res)=>{
     try {
@@ -76,8 +78,7 @@ const deleteBlog = async(req, res)=>{
         }
         return res.status(httpStatus.OK).json({
             status: httpStatus.OK,
-            message: "Blog Deleted Successfully",
-            data: deletedBlog
+            message: "Blog Deleted Successfully"
         })
         
     } catch (error) {

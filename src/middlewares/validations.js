@@ -134,10 +134,13 @@ const transformFilesToBody = (req, res, next) => {
     return res
       .status(httpStatus.BAD_REQUEST)
       .json({ status: httpStatus.BAD_REQUEST, message: "Images are required" });
+      
   }
 
-  const files = req.files;
-  req.body.images = files.map((file) => file.path);
+  if (req.files && req.files.length > 0) {
+    const files = req.files;
+    req.body.images = files.map((file) => file.path); // Only set images if files are present
+  }
   next();
 };
 

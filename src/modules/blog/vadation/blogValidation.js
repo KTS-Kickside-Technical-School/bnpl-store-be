@@ -11,7 +11,7 @@ export const createBlogSchema = Joi.object({
 })
 export const updateBlogSchema = Joi.object({
     title: Joi.string().required(),
-    images: Joi.array().items(Joi.string()).required(),
+    images: Joi.array().items(Joi.string()).optional(),
     summary: Joi.string().required(),
     description: Joi.string().required(),
     views: Joi.number().required(),

@@ -8,6 +8,7 @@ import wishlistRouter from "./wishlistRouter.js"
 import supplierRouter from "./supplierRouter.js"
 import cartRouter from "./cartRouter.js"
 import blogRouter from './blogRouter.js'
+import termsRouter from "./termsRouter.js"
 
 const router = express.Router()
 
@@ -22,6 +23,7 @@ router.use('/wishlist', wishlistRouter)
 router.use('/supplier', supplierRouter )
 router.use('/cart', cartRouter)
 router.use('/blog', blogRouter)
+router.use('/terms', termsRouter)
 
 
 

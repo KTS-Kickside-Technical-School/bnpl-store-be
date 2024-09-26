@@ -34,17 +34,26 @@ export const isProductAlreadyToCart = async (req, res, next) => {
       });
     }
   };
-
-  export const isProductExistsToCart = async (req, res, next) => {
-    const productId = req.body.productId || req.query.productId || req.params.productId;
-    const product = await Product.findById(productId);
-    if (!product) {
-      return res.status(httpStatus.NOT_FOUND).json({
-        status: httpStatus.NOT_FOUND,
-        message: "Product not found",
-      });
-    }
-    req.product = product; 
-    next();
-  };
   
+  export const isProductExistsToCart = async (req, res, next) => {
+    try {
+        const userId = req.user._id;
+        const { productId } = req.body;
+
+        const cartItem = await cartRepository.getCartByAttributes("userId", userId, "productId", productId);
+        
+        if (!cartItem) {
+            return res.status(httpStatus.NOT_FOUND).json({
+                status: httpStatus.NOT_FOUND,
+                message: "Product not found in user's cart",
+            });
+        }
+        
+        next(); 
+    } catch (error) {
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+            status: httpStatus.INTERNAL_SERVER_ERROR,
+            message: error.message,
+        });
+    }
+};

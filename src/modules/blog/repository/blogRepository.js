@@ -11,16 +11,11 @@ const getBlogByAttributes = async(key, title) =>{
     return Blog.findOne(query)
 }
 
-const updateBlogById = async (_id, updateBlogData) => {
+const blogUpdate = async(_id, updateBlogData)=>{
     
-    if (!mongoose.Types.ObjectId.isValid(_id)) {
-        throw new Error("Invalid Blog ID");
-    }
-
-    const blogUpdated = await Blog.findByIdAndUpdate(_id, updateBlogData, { new: true });
-    return blogUpdated;
-};
-
+    const updatedBlogData = await Blog.findByIdAndUpdate(_id, updateBlogData, {new: true})
+    return updatedBlogData
+}
 
 const deleteBlogById = async(_id)=>{
     const blogDeleted = await Blog.findByIdAndDelete(_id);
@@ -30,7 +25,7 @@ const deleteBlogById = async(_id)=>{
 export default { 
     createBlog,
     getBlogByAttributes,
-    updateBlogById,
+    blogUpdate,
     deleteBlogById
 
 }
