@@ -38,6 +38,7 @@ This is our first version of BNPL that includes many new features.
 24. User add and update product added to cart
 25. Admin Create, Update and Delete Blog
 26. User able to clear all product from cart
+
 ## Table of completed Endpoints
 
 | Verb | Endpoint                              | Name                           | Status  |
