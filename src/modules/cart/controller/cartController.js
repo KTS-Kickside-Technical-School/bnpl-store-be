@@ -76,10 +76,38 @@ const getCartItems = (req, res) => {
             messager: error.message || "Something went wrong"
         })
     }
-}
+};
+
+
+export const removeAllProductFromCart = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const result = await cartRepository.deleteAllProductFromCart(userId);
+
+        if (result.deletedCount === 0) {
+            return res.status(httpStatus.NOT_FOUND).json({
+                status: httpStatus.NOT_FOUND,
+                message: "No products found in cart",
+            });
+        }
+
+        return res.status(httpStatus.OK).json({
+            status: httpStatus.OK,
+            message: "All products removed from cart successfully",
+        });
+
+    } catch (error) {
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+            status: httpStatus.INTERNAL_SERVER_ERROR,
+            message: error.message || "Error clearing cart",
+        });
+    }
+};
+
 
 export default {
     addProductToCart,
     removeProductFromCart,
-    getCartItems
+    getCartItems,
+    removeAllProductFromCart
 }

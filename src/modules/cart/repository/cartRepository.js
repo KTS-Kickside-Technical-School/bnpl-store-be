@@ -30,6 +30,10 @@ const findCartItemsByUserId = async (userId) => {
   return await Cart.find({ userId }).populate('productId');
 }
 
+const deleteAllProductFromCart = async (userId) => {
+  return await Cart.deleteMany({ userId });  // This returns a result object with deletedCount
+};
+
 
 export default {
   addProductToCart,
@@ -37,5 +41,6 @@ export default {
   getCartByAttribute,
   getCartByAttributes,
   deleteProductFromCart,
-  findCartItemsByUserId
+  findCartItemsByUserId,
+  deleteAllProductFromCart
 };
