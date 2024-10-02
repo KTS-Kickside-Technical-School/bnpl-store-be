@@ -7,4 +7,6 @@ export const newCartShema = Joi.object({
 
 export const removeCartItemSchema = Joi.object({
     productId: Joi.string().required()
-})
+});
+
+export const removeAllProductFromCart = Joi.object({ });
