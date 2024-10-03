@@ -26,9 +26,10 @@ export const isUserAuthorized = function (role) {
                 return res.status(httpStatus.UNAUTHORIZED).json({ status: httpStatus.UNAUTHORIZED, message: "Unauthorized access" });
             }
             req.user = user;
+            req.session = session
             return next();
         } catch (error) {
-            return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ status: httpStatus.INTERNAL_SERVER_ERROR, message: error.message });
+            return res.status(httpStatus.UNAUTHORIZED).json({ status: httpStatus.UNAUTHORIZED, message: error.message });
         }
     }
 }

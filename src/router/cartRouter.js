@@ -23,6 +23,7 @@ router.get("/view-cart-items", isUserAuthorized(["customer"]), isCartProductsExi
 router.delete("/remove-product-from-cart",
     isUserAuthorized(["customer"]),
     bodyValidation(removeCartItemSchema),
+    isProductExists,
     isProductExistsToCart,
     cartController.removeProductFromCart
 );

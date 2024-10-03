@@ -108,9 +108,9 @@ const isTokenValid = async (req, res, next) => {
   try {
     const session = await authRepository.getSessionByAttributes(
       "userId",
-      req.body.userId,
+      req.user._id,
       "token",
-      req.body.token
+      req.session.token
     );
     if (!session) {
       return res
@@ -142,7 +142,7 @@ const transformFilesToBody = (req, res, next) => {
   next();
 };
 
-const isIdValid = (req, res, next) =>{
+const isIdValid = (req, res, next) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.status(httpStatus.BAD_REQUEST).json({
       status: httpStatus.BAD_REQUEST,
