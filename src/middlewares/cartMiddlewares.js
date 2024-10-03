@@ -1,6 +1,5 @@
 import httpStatus from "http-status";
 import cartRepository from "../modules/cart/repository/cartRepository.js"
-import Product from "../databases/models/product.js";
 
 
 export const isProductAlreadyToCart = async (req, res, next) => {
@@ -37,14 +36,14 @@ export const isProductAlreadyToCart = async (req, res, next) => {
 
 export const isProductExistsToCart = async (req, res, next) => {
   const productId = req.body.productId || req.query.productId || req.params.productId;
-  const product = await Product.findById(productId);
-  if (!product) {
+  const productCart = await cartRepository.findCartByProductAndUserId(productId, req.user._id);
+  if (!productCart) {
     return res.status(httpStatus.NOT_FOUND).json({
       status: httpStatus.NOT_FOUND,
-      message: "Product not found",
+      message: "Product not found in cart",
     });
   }
-  req.product = product;
+  req.productCart = productCart;
   next();
 };
 

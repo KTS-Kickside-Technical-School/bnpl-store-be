@@ -29,7 +29,7 @@ const addProductToCart = async (req, res) => {
     } catch (error) {
         return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
             status: httpStatus.INTERNAL_SERVER_ERROR,
-            message: "Error adding product to cart",
+            message:error
         });
 
     }
@@ -38,26 +38,17 @@ const addProductToCart = async (req, res) => {
 
 const removeProductFromCart = async (req, res) => {
     try {
-        const productId = req.body.productId
-        const removeCartItems = await cartRepository.deleteProductFromCart(productId)
+        await cartRepository.deleteProductFromCart(req.product._id, req.user._id)
 
-        if (!removeCartItems) {
-            return res.status(httpStatus.NOT_FOUND).json({
-                status: httpStatus.NOT_FOUND,
-                message: "Product not found in cart",
-            })
-        }
         return res.status(httpStatus.OK).json({
             status: httpStatus.OK,
             message: "Product removed from cart successfully",
         })
 
-
-
     } catch (error) {
         return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
             status: httpStatus.INTERNAL_SERVER_ERROR,
-            message: message.error
+            message: error.message
         })
 
     }
@@ -73,7 +64,7 @@ const getCartItems = (req, res) => {
     } catch (error) {
         return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
             status: httpStatus.INTERNAL_SERVER_ERROR,
-            messager: error.message || "Something went wrong"
+            messager: error.message
         })
     }
 }
