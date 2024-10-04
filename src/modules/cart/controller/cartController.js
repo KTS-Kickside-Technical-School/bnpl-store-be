@@ -29,7 +29,7 @@ const addProductToCart = async (req, res) => {
     } catch (error) {
         return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
             status: httpStatus.INTERNAL_SERVER_ERROR,
-            message:error
+            message: error
         });
 
     }
@@ -69,8 +69,64 @@ const getCartItems = (req, res) => {
     }
 }
 
+// const userPayCart = (req, res) => {
+//     try {
+//         console.log(req.cartItems)
+//     } catch (error) {
+//         return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+//             status: httpStatus.INTERNAL_SERVER_ERROR,
+//             messager: error.message
+//         })
+//     }
+// }
+
+const userCreateStripeProduct = async (req, res) => {
+    try {
+        const cartItems = req.cartItems;
+
+        const productsName = cartItems.map(item => item.productId.name).join(", ");
+        const productsDescription = cartItems.map(item => item.productId.description).join(", ");
+
+        req.body.productInfo.name = productsName;
+        req.body.productInfo.active = true;
+        req.body.productInfo.description = productsDescription;
+        req.body.productInfo.images = cartItems.map(item => item.productId.image);
+        req.body.productInfo.default_price_data.currency = "rwf";
+
+        const product = await cartRepository.createStripeProduct(req.body.productInfo);
+
+        return res.status(httpStatus.CREATED).json({ message: "Stripe product created successfully.", data: { product } });
+    } catch (error) {
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+            status: httpStatus.INTERNAL_SERVER_ERROR,
+            error: error.message
+        });
+    }
+};
+
+export const userStripeCheckoutSession = async (req, res) => {
+    try {
+        let customer = await cartRepository.findStripeCustomerByAttribute("email", req.user.email);
+        if (!customer) customer = await cartRepository.createStripeCustomer({ email: req.user.email });
+
+        req.body.sessionInfo.customer = customer.id;
+        req.body.sessionInfo.mode = "payment"
+        req.body.sessionInfo.ui_mode = "hosted"
+        req.body.sessionInfo.payment_method_types = ["card"]
+
+        const session = await cartRepository.createStripeSession(req.body.sessionInfo);
+
+        return res.status(httpStatus.CREATED).json({ message: "Stripe session created successfully.", data: { session } });
+    } catch (error) {
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ status: httpStatus.INTERNAL_SERVER_ERROR, error: error.message })
+    }
+};
+
 export default {
     addProductToCart,
     removeProductFromCart,
-    getCartItems
+    getCartItems,
+    // userPayCart,
+    userCreateStripeProduct,
+    userStripeCheckoutSession
 }
