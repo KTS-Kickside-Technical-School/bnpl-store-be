@@ -1,4 +1,5 @@
 import Cart from "../../../databases/models/cart.js";
+import { stripe } from "../../../services/stripe.js";
 
 const addProductToCart = async (data) => {
   const newCart = new Cart(data);
@@ -35,6 +36,22 @@ const findCartItemsByUserId = async (userId) => {
   return await Cart.find({ userId }).populate('productId');
 }
 
+const createStripeProduct = async (body) => {
+  return await stripe.products.create(body);
+};
+
+const findStripeCustomerByAttribute = async (primaryKey, primaryValue) => {
+  const customer = await stripe.customers.search({ query: `${primaryKey}: '${primaryValue}'` });
+  return customer.data[0];
+};
+
+const createStripeCustomer = async (body) => {
+  return await stripe.customers.create(body);
+};
+
+const createStripeSession = async (body) => {
+  return await stripe.checkout.sessions.create(body);
+};
 
 export default {
   addProductToCart,
@@ -43,5 +60,9 @@ export default {
   getCartByAttributes,
   deleteProductFromCart,
   findCartItemsByUserId,
-  findCartByProductAndUserId
+  findCartByProductAndUserId,
+  createStripeProduct,
+  findStripeCustomerByAttribute,
+  createStripeCustomer,
+  createStripeSession
 };
